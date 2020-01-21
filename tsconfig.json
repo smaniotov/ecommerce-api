@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
