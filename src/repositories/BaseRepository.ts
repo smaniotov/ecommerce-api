@@ -37,7 +37,7 @@ export default class BaseRepository<T> implements IRepository<T> {
   public findAll = async (findQuery: Partial<T>): Promise<Cursor<T>> => this.getCollection()
     .find(findQuery);
 
-  public findPage = async (findQuery: Partial<T>, page: number, size: number):
+  public findPage = async (findQuery: any, page: number, size: number, sort: number = 1):
     Promise<IPage<T>[]> => {
     const skip = page * size;
     return this.getCollection().aggregate([
@@ -45,16 +45,18 @@ export default class BaseRepository<T> implements IRepository<T> {
         $facet: {
           data: [
             { $match: findQuery },
+            { $sort: { createdAt: sort } },
             { $skip: skip },
             { $limit: size },
           ],
           count: [
+            { $match: findQuery },
             { $count: 'totalElements' },
           ],
         },
       },
-      { $unwind: '$count' },
-      { $set: { count: '$count.totalElements' } },
+      { $unwind: { path: '$count', preserveNullAndEmptyArrays: true } },
+      { $set: { count: { $ifNull: ['$count.totalElements', 0] } } },
     ]).toArray();
   };
 }

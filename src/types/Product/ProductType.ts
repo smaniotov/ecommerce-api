@@ -4,12 +4,19 @@ import { IProduct } from '../../models/Product';
 @ObjectType()
 export default class ProductType implements Partial<IProduct> {
   constructor({
-    _id = null, category, description, title,
+    _id = null,
+    category,
+    description,
+    title,
+    createdAt,
+    updatedAt,
   }) {
     this._id = _id;
     this.category = category;
     this.description = description;
     this.title = title;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
   @Field(() => String, { nullable: true })
@@ -23,4 +30,10 @@ export default class ProductType implements Partial<IProduct> {
 
   @Field(() => String)
   category: string;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date)
+  updatedAt: Date;
 }
