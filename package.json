@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+    "lint:fix": "eslint --fix src/**/*.ts",
+    "test": "TEST=true mocha -r ts-node/register test/**/*.ts",
+    "tdd": "TEST=true mocha -r ts-node/register test/**/*.ts --watch --watch-files test/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +28,9 @@
     "typedi": "^0.8.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.8",
     "@types/lodash": "^4.14.149",
+    "@types/mocha": "^7.0.1",
     "@types/mongodb": "^3.3.14",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
