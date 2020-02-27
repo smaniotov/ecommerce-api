@@ -12,11 +12,11 @@ globals:
   SharedArrayBuffer: readonly
 parser: '@typescript-eslint/parser'
 parserOptions:
-  ecmaVersion: 2018
+  ecmaVersion: 2016
   sourceType: module
 plugins:
   - '@typescript-eslint'
-rules: 
+rules:
   no-underscore-dangle: 0
   func-names: 0
   import/prefer-default-export: 0

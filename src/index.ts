@@ -1,6 +1,6 @@
+import 'reflect-metadata';
 import fastify from 'fastify';
 import dotenv from 'dotenv';
-import 'reflect-metadata';
 import { mongoClient } from './utils/db';
 import initializeApolloServer from './utils/initializeApolloServer';
 

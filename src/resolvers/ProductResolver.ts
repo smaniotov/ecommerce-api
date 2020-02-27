@@ -20,8 +20,13 @@ export default class ProductResolver {
   }
 
   @Query(() => ProductPage)
-  async getProducts(@Arg('keyword') keyword: string, @Arg('page') page: number, @Arg('size') size: number): Promise<ProductPage> {
-    return this.productService.getProductsPage(keyword, page, size);
+  async getProducts(
+    @Arg('keyword', { nullable: true }) keyword: string = '',
+    @Arg('page', { nullable: true }) page: number = 0,
+    @Arg('size', { nullable: true }) size: number = 10,
+    @Arg('sort', {nullable: true}) sort: number = 1,
+  ): Promise<ProductPage> {
+    return this.productService.getProductsPage(keyword, page, size, sort);
   }
 
   @Mutation(() => ProductType)

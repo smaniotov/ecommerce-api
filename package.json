@@ -4,17 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+    "lint:fix": "eslint --fix src/**/*.ts",
+    "test": "TEST=true mocha -r ts-node/register test/**/*.ts --exit",
+    "tdd": "TEST=true mocha -r ts-node/register test/**/*.ts --watch --watch-files test/**/*.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "@types/mongodb": "^3.3.14",
     "apollo-server": "^2.9.16",
     "apollo-server-core": "^2.9.16",
     "apollo-server-fastify": "^2.9.16",
@@ -29,6 +28,10 @@
     "typedi": "^0.8.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.8",
+    "@types/lodash": "^4.14.149",
+    "@types/mocha": "^7.0.1",
+    "@types/mongodb": "^3.3.14",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "apollo-server-testing": "^2.9.16",

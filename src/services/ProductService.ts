@@ -1,11 +1,10 @@
-import pickBy from 'lodash/pickBy';
-import isNil from 'lodash/isNil';
 import { ObjectID } from 'mongodb';
 import { Service } from 'typedi';
 import ProductType from '../types/Product/ProductType';
 import { ProductRepository } from '../repositories';
 import { CreateProductInput, UpdateProductInput } from '../validators/Product';
 import IPage from '../models/Page';
+import isRegExp from 'lodash/isRegExp';
 
 @Service()
 export default class ProductService {
@@ -25,23 +24,23 @@ export default class ProductService {
       .updateOne({ _id: new ObjectID(id) }, { $set: updatePayload })
   );
 
-  getProductsPage = async (keyword: string, pageNum: number, size: number):
+  getProductsPage = async (keyword: string, pageNum: number, size: number, sort: number):
     Promise<IPage<ProductType>> => {
-    const keywordRegex = keyword ? new RegExp(keyword) : null;
-    const searchPayload = pickBy({
-      title: keywordRegex,
-      description: keywordRegex,
-      category: keywordRegex,
-    }, isNil);
+    const keywordRegex = keyword ? new RegExp(`${keyword}`, 'gi') : null;
+    const keys = ['title', 'description', 'category'];
+    const searchPayload = isRegExp(keywordRegex)
+      ? keys.map((key) => ({ [key]: keywordRegex }))
+      : [];
 
-    const page = await this.productRepository.findPage(searchPayload, pageNum, size);
+    const page = await this.productRepository
+      .findPage(searchPayload.length > 0 ? { $or: searchPayload } : {}, pageNum, size, sort);
     return page[0] as any;
   };
 
   createProduct = async (product: CreateProductInput): Promise<ProductType[]> => {
-    const productPayload = new ProductType(product);
+    const now = new Date();
+    const productPayload = new ProductType({ ...product, createdAt: now, updatedAt: now });
     const data = await this.productRepository.insertOne(productPayload);
-
-    return data.ops;
+    return data.ops[0];
   };
 }
